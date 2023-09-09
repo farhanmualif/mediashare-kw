@@ -3,11 +3,17 @@
   <div class="container">
     <a class="btn btn-primary float-end" href="<%= "/form/login" %>" role="button">Login</a>
   </div>
+  
   <form method="post" class="mb-5" action="/sendDonation" id="form">
     <h1>Send Donation</h1>
 
-    <% if (typeof req.params.name === "undefined") { %>
+    <% if (failure_alert != "") { %>
+      <% failure_alert.forEach(e => { %>
+        <div class="alert alert-danger" role="alert"><%= e.message %></div>
+      <% }) %>
+    <% } %>
 
+    <% if (typeof req.params.name === "undefined") { %>
     <div class="container"></div>
     <% } else { %>
       <div class="container">

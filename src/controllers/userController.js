@@ -3,9 +3,6 @@ import { userServices } from "../../services/userServices.js";
 import prisma from "../app/database.js";
 import bcrypt from "bcrypt";
 
-
-
-
 const userController = {
   index: async (req, res) => {
     const user = await userServices.getUser({

@@ -1,9 +1,13 @@
-const errorMidleware = (err, req, res, next) =>{
-  if (!err) {
-    next()
-  }
+import { Prisma } from "@prisma/client";
 
-  if (condition) {
+const errorMidleware = (err, req, res, next) => {
+  if (!err) {
+    next();
+  }
+  if (err instanceof Prisma.PrismaClientValidationError) {
     
   }
-}
+  return next(err);
+};
+
+export default errorMidleware;

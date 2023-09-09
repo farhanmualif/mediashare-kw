@@ -1,9 +1,10 @@
-import prisma from "../src/app/database";
+import prisma from "../src/app/database.js";
 
 export const mediaRepository = {
   insertMedia: (data) => {
-    prisma.media.create({
+    const mediaCreated = prisma.media.create({
       data,
     });
+    return mediaCreated;
   },
 };

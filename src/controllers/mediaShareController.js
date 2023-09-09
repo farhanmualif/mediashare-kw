@@ -24,15 +24,12 @@ const mediaShareController = {
   },
 
   sendDonation: async (req, res, next) => {
-    const data = req.body;
     try {
-      mediServices.insertMedia(req.body);
-      await prisma.media.create({
-        data,
-      });
-      showNewData(req);
+      await mediServices.insertMedia(req.body);
       res.redirect("back");
     } catch (e) {
+      req.flash("failure", e);
+      res.redirect("back");
       next(e);
     }
   },

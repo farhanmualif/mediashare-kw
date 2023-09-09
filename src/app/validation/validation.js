@@ -1,10 +1,9 @@
 const validation = (schema, request) => {
-  const valid = schema.validate(request);
-  if (valid.isError) {
-    return valid.isError;
-  } else {
-    return valid.value;
+  const validation = schema.validate(request);
+  if (validation.error) {
+    throw validation.error.details;
   }
+  return validation;
 };
 
 export default validation;

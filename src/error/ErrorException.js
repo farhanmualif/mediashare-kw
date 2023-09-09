@@ -5,6 +5,4 @@ class ErrorException extends Error {
   }
 }
 
-export default {
-  ErrorException,
-};
+export default ErrorException;
