@@ -1,0 +1,84 @@
+<%- include('template/head') %>
+<div class="container mt-5">
+  <div class="container">
+    <a class="btn btn-primary float-end" href="<%= "/form/login" %>" role="button">Login</a>
+  </div>
+  <form method="post" class="mb-5" action="/sendDonation" id="form">
+    <h1>Send Donation</h1>
+
+    <% if (typeof req.params.name === "undefined") { %>
+
+    <div class="container"></div>
+    <% } else { %>
+      <div class="container">
+        <img class="mx-auto d-block border border-1 rounded-circle" style="width:
+        200px; height: auto;" alt="avatar2" src="<%= "/static/images/"+user[0].images
+        %>"/>
+      </div>
+    <% } %>
+
+    <div class="mb-3 mt-5">
+      <label for="name" class="form-label">Name</label>
+      <input
+        type="text"
+        class="form-control"
+        id="name"
+        name="name"
+        aria-describedby="nameHelp" />
+      <div id="nameHelp" class="form-text">
+        We'll never share your email with anyone else.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="nominal" class="form-label">Nominal</label>
+      <input type="number" name="nominal" class="form-control" id="nominal" />
+    </div>
+
+    <div class="mb-3">
+      <label for="message" class="form-label">Message</label>
+      <input type="text" name="message" class="form-control" id="message" />
+    </div>
+    
+    <% if (typeof req.params.name === "undefined") { %>
+    <div class="mb-3">
+      <label for="linkDonatur" class="form-label">Link to donate</label>
+      <input
+        type="text"
+        name="linkDonatur"
+        class="form-control"
+        id="linkDonatur" />
+    </div>
+    <% } else { %>
+
+    <div class="mb-3">
+      <input
+        type="text"
+        name="linkDonatur"
+        class="form-control"
+        id="linkDonatur"
+        value="http://<%=req.hostname %>:3000/display/<%= user[0].uuid %>"
+        hidden />
+    </div>
+    <% } %>
+
+    <div class="mb-3">
+      <label for="linkMedia" class="form-label">Link Media</label>
+      <input type="text" name="linkMedia" class="form-control" id="linkMedia" />
+    </div>
+
+    <div class="mb-3">
+      <label for="paymentMethod" class="form-label">Payment Method</label>
+      <input
+        type="text"
+        name="paymentMethod"
+        class="form-control"
+        id="paymentMethod" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+    
+  </form>
+</div>
+<script src="/socket.io/socket.io.js"></script>
+<%- include('template/foot') %>

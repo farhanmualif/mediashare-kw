@@ -1,0 +1,168 @@
+<%- include('template/head') %>
+
+<div class="container"><%- include('template/nav') %></div>
+<div class="container mt-5">
+  <form
+    method="post"
+    action="/update-profile"
+    id="form"
+    enctype="multipart/form-data">
+    <h1>Detail Profile</h1>
+    <div class="container">
+      <img class="mx-auto d-block border border-1 rounded-circle" id="image"
+      style="width: 200px; height: auto;" alt="avatar2" src="<%=
+      "/static/images/"+user.images %>"/>
+    </div>
+    <div class="container">
+      <input
+        type="file"
+        name="input-file-image-update"
+        id="input-file-image"
+        class="mx-auto d-block mt-3" />
+    </div>
+
+    <!-- Button trigger modal -->
+    <button
+      type="button"
+      id="button-cropper-modal"
+      class="btn btn-primary"
+      data-bs-toggle="modal"
+      data-bs-target="#exampleModal"
+      style="display: none">
+      Launch demo modal
+    </button>
+
+    <!-- Modal -->
+    <div
+      class="modal fade"
+      id="exampleModal"
+      tabindex="-1"
+      aria-labelledby="exampleModalLabel"
+      aria-hidden="true">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h1 class="modal-title fs-5" id="exampleModalLabel">Modal title</h1>
+            <button
+              type="button"
+              class="btn-close"
+              id="btn-close"
+              data-bs-dismiss="modal"
+              aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+            <!-- result -->
+            <div
+              class="result"
+              id="result"
+              style="height: max-content; width: max-content"></div>
+          </div>
+          <div class="modal-footer">
+            <button
+              type="button"
+              class="btn btn-secondary"
+              id="button-close"
+              data-bs-dismiss="modal">
+              Close
+            </button>
+            <button type="button" id="button-cropped" class="btn btn-primary">
+              CROP
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- end new -->
+
+    <div class="mb-3">
+      <label for="name" class="form-label">Name</label>
+      <input
+        type="text"
+        class="form-control"
+        id="name"
+        name="name"
+        value="<%= user.name %>"
+        aria-describedby="nameHelp" />
+      <div id="nameHelp" class="form-text">
+        We'll never share your email with anyone else.
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="email" class="form-label">email</label>
+      <input
+        type="text"
+        name="email"
+        class="form-control"
+        id="email"
+        value="<%= user.email %>" />
+    </div>
+
+    <button type="submit" class="btn btn-primary">update</button>
+  </form>
+</div>
+<!-- <script type="application/javascript">
+  const file = document.getElementById("input-file-image"),
+    result = document.getElementById("result"),
+    image = document.getElementById("image"),
+    buttonCropped = document.getElementById("button-cropped"),
+    buttonCropperModal = document.getElementById("button-cropper-modal"),
+    buttonClose = document.getElementById("button-close");
+  let cropper;
+
+  file.addEventListener("change", (e) => {
+    if (e.target.files.length) {
+      const reader = new FileReader();
+      reader.onload = function (e) {
+        if (e.target.result) {
+          // create new image
+
+          let img = document.createElement("img");
+          img.id = "image";
+          img.src = e.target.result;
+          // clean result before
+          result.textContent = "";
+          // append new image
+          result.appendChild(img);
+          // init cropper
+
+          cropper = new Cropper(img, {
+            dragMode: "move",
+            aspectRatio: 1 / 1,
+            autoCropArea: 0.65,
+            restore: false,
+            guides: false,
+            center: false,
+            highlight: false,
+            cropBoxMovable: true,
+            cropBoxResizable: false,
+            toggleDragModeOnDblclick: false,
+          });
+          buttonCropperModal.click();
+        }
+      };
+      reader.readAsDataURL(e.target.files[0]);
+      buttonCropped.addEventListener("click", (e) => {
+        console.log("cropperd clicked");
+        // get result to data uri
+        let newImage = cropper.getCroppedCanvas({
+          width: 300, // input value
+        });
+
+        let imgSrc = newImage.toDataURL();
+
+        // show image cropped
+        image.src = imgSrc;
+        newImage.toBlob((blop) => {
+          let formData = new FormData();
+
+          formData.append("image", blob, "avatar.jpg");
+        });
+
+        buttonClose.click();
+      });
+    }
+  });
+</script> -->
+
+<%- include('template/foot') %>
