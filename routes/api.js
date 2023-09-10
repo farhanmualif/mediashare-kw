@@ -3,11 +3,9 @@ import { userController } from "../src/controllers/userController.js";
 import mediaShareController from "../src/controllers/mediaShareController.js";
 import { authentication } from "../middleware/authenthication.js";
 import uploadFile from "../middleware/multer.js";
-import errorMidleware from "../middleware/errorMidleware.js";
 const web = express.Router();
 const upload = uploadFile();
 
-web.use(errorMidleware);
 web.get("/", mediaShareController.sendDonationForm);
 web.get("/form/register", userController.registerForm);
 web.post("/register", userController.register);

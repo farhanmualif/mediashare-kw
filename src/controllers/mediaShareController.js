@@ -4,6 +4,7 @@ import { mediServices } from "../../services/mediaServices.js";
 import { io } from "../../index.js";
 import validation from "../app/validation/validation.js";
 import mediaValidation from "../app/validation/mediaValidation.js";
+import errorMidleware from "../../middleware/errorMidleware.js";
 
 const showNewData = async (req) => {
   const data = await prisma.media.findMany({
@@ -28,8 +29,6 @@ const mediaShareController = {
       await mediServices.insertMedia(req.body);
       res.redirect("back");
     } catch (e) {
-      req.flash("failure", e);
-      res.redirect("back");
       next(e);
     }
   },

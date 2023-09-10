@@ -10,6 +10,7 @@ import bodyParser from "body-parser";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 import flash from "connect-flash";
+import errorMidleware from "./middleware/errorMidleware.js";
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -66,6 +67,7 @@ io.on("connection", (socket) => {
 });
 
 app.use(web);
+app.use(errorMidleware);
 
 server.listen(process.env.PORT, () => {
   logger.log({

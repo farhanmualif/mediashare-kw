@@ -61,34 +61,20 @@ const userController = {
     }
   },
 
-  login: async (req, res) => {
+  login: async (req, res, next) => {
     try {
-      const { email, password } = req.body;
-      const credential = await userServices.getUser({
-        email,
-      });
-
-      if (credential.length === 1) {
-        credential.forEach(async (e) => {
-          // compare password
-          const checkPassword = await bcrypt.compare(password, e.password);
-          if (!checkPassword) {
-            req.flash("failure", "password not match");
-            res.redirect("back");
-          }
-          req.session.name = e.name;
-          req.session.logged = true;
-          req.session.uuid = e.uuid;
-          req.flash("success", "berhasil login");
-
-          res.redirect("/index");
-        });
-      } else {
-        req.flash("failure", "credential not found");
+      const login = await userServices.login(req.body);
+      if (!login) {
+        req.flash("failure", login.message);
         res.redirect("back");
       }
+      req.session.name = login.name;
+      req.session.logged = true;
+      req.session.uuid = login.uuid;
+      req.flash("success", login.message);
+      res.redirect("/index");
     } catch (error) {
-      throw error;
+      next(error);
     }
   },
   logout: (req, res) => {

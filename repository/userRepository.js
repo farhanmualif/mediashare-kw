@@ -2,7 +2,8 @@ import prisma from "../src/app/database.js";
 
 export const userRepository = {
   getUser: async (where) => {
-    const user = await prisma.user.findMany({
+    console.log("dari repo: ", where);
+    const user = await prisma.user.findFirst({
       where,
     });
     if (!user) {

@@ -1,7 +1,12 @@
 import { userRepository } from "../repository/userRepository.js";
-import registerUserValidation from "../src/app/validation/userValildation.js";
+import prisma from "../src/app/database.js";
+import {
+  registerUserValidation,
+  loginUserValidation,
+} from "../src/app/validation/userValildation.js";
 import validation from "../src/app/validation/validation.js";
 import bcrypt from "bcrypt";
+import ErrorException from "../src/error/ErrorException.js";
 
 export const userServices = {
   getUser: async (where) => {
@@ -22,6 +27,31 @@ export const userServices = {
     } catch (error) {
       throw error;
     }
+  },
+
+  login: async (credential) => {
+    const validate = validation(loginUserValidation, credential);
+
+    const user = await userRepository.getUser({
+      email: validate.value.email,
+    });
+
+    if (!user) {
+      throw new ErrorException(401, "Email or password wrong");
+    }
+    const matchPassword = await bcrypt.compare(
+      validate.value.password,
+      user.password
+    );
+
+    if (!matchPassword) {
+      throw new ErrorException(401, "Email or password wrong");
+    }
+    return {
+      message: "berhasil login",
+      status: true,
+      user,
+    };
   },
 
   updateUser: async (where, data) => {
