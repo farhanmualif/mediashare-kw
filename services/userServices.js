@@ -13,6 +13,7 @@ export const userServices = {
     const user = await userRepository.getUser(where);
     return user;
   },
+
   getUsers: async () => {
     const users = await userRepository.getUsers();
     return users;
@@ -21,6 +22,8 @@ export const userServices = {
   register: async (request) => {
     try {
       const user = validation(registerUserValidation, request);
+      console.log("validate: ", user);
+
       user.password = await bcrypt.hash(user.password, 10);
       const create = userRepository.createUser(user);
       return create;
@@ -31,9 +34,10 @@ export const userServices = {
 
   login: async (credential) => {
     const validate = validation(loginUserValidation, credential);
-
-    const user = await userRepository.getUser({
-      email: validate.value.email,
+    const user = await prisma.user.findUnique({
+      where: {
+        email: credential.email,
+      },
     });
 
     if (!user) {

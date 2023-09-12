@@ -2,6 +2,9 @@
 <div
   class="container min-vh-100 d-flex justify-content-center align-items-center">
   <form method="post" action="/register" class="border rounded-1 p-3">
+    <% if (failure_alert != "") { %>
+    <div class="alert alert-danger" role="alert"><%= failure_alert %></div>
+    <% } %>
     <h2 class="text-center mb-3">Register</h2>
     <div class="mb-3">
       <label for="name" class="form-label">name</label>
@@ -37,7 +40,7 @@
         style="position: relative">
         have account</a
       >
-      <br>
+      <br />
       <a
         href="/"
         class="stretched-link text-primary my-4"

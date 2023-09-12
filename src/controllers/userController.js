@@ -51,13 +51,13 @@ const userController = {
     res.render("form/login");
   },
 
-  register: async (req, res) => {
+  register: async (req, res, next) => {
     try {
       await userServices.register(req.body);
       req.flash("success", "register successfully");
       res.redirect("/form/login");
-    } catch (error) {
-      throw error;
+    } catch (e) {
+      next(e);
     }
   },
 

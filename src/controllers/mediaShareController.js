@@ -2,9 +2,6 @@ import { userServices } from "../../services/userServices.js";
 import prisma from "../app/database.js";
 import { mediServices } from "../../services/mediaServices.js";
 import { io } from "../../index.js";
-import validation from "../app/validation/validation.js";
-import mediaValidation from "../app/validation/mediaValidation.js";
-import errorMidleware from "../../middleware/errorMidleware.js";
 
 const showNewData = async (req) => {
   const data = await prisma.media.findMany({
