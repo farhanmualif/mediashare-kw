@@ -1,7 +1,5 @@
-import { io } from "../../index.js";
 import { userServices } from "../../services/userServices.js";
 import prisma from "../app/database.js";
-import bcrypt from "bcrypt";
 
 const userController = {
   index: async (req, res) => {
@@ -68,9 +66,10 @@ const userController = {
         req.flash("failure", login.message);
         res.redirect("back");
       }
-      req.session.name = login.name;
+      console.log(login);
+      req.session.name = login.user.name;
       req.session.logged = true;
-      req.session.uuid = login.uuid;
+      req.session.uuid = login.user.uuid;
       req.flash("success", login.message);
       res.redirect("/index");
     } catch (error) {

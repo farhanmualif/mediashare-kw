@@ -16,7 +16,7 @@
     <% } else { %>
       <div class="container">
         <img class="mx-auto d-block border border-1 rounded-circle" style="width:
-        200px; height: auto;" alt="avatar2" src="<%= "/static/images/"+user[0].images
+        200px; height: auto;" alt="avatar2" src="<%= "/static/images/"+user.images
         %>"/>
       </div>
     <% } %>
@@ -61,7 +61,7 @@
         name="linkDonatur"
         class="form-control"
         id="linkDonatur"
-        value="http://<%=req.hostname %>:3000/display/<%= user[0].uuid %>"
+        value="http://<%=req.hostname %>:3000/display/<%= user.uuid %>"
         hidden />
     </div>
     <% } %>

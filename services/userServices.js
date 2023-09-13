@@ -22,10 +22,8 @@ export const userServices = {
   register: async (request) => {
     try {
       const user = validation(registerUserValidation, request);
-      console.log("validate: ", user);
-
-      user.password = await bcrypt.hash(user.password, 10);
-      const create = userRepository.createUser(user);
+      user.value.password = await bcrypt.hash(user.value.password, 10);
+      const create = userRepository.createUser(user.value);
       return create;
     } catch (error) {
       throw error;

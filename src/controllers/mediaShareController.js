@@ -24,6 +24,7 @@ const mediaShareController = {
   sendDonation: async (req, res, next) => {
     try {
       await mediServices.insertMedia(req.body);
+      showNewData(req);
       res.redirect("back");
     } catch (e) {
       next(e);
