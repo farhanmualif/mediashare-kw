@@ -4,6 +4,20 @@ import mediaValidation from "../src/app/validation/mediaValidation.js";
 
 export const mediServices = {
   insertMedia: async (request) => {
+    if (request.nominal === "") {
+      request.nominal = 0;
+    }
+    if (request.paymentMethod === "Choose...") {
+      request.paymentMethod = "";
+    }
+
+    if (request.startFrom === "") {
+      request.startFrom = "0";
+    }
+
+    if (request.duration === "") {
+      request.duration = "5";
+    }
     const splitLinkDonatur = request.linkDonatur.split("/");
     const uuidReciver = splitLinkDonatur[splitLinkDonatur.length - 1];
     request.receiverId = uuidReciver;

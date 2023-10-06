@@ -43,7 +43,6 @@ app.use(
 );
 // flash
 app.use(flash());
-
 app.use((req, res, next) => {
   res.locals.req = req;
   res.locals.res = res;
@@ -62,10 +61,6 @@ const logger = winston.createLogger({
 app.set(env);
 
 app.use(express.json());
-io.on("connection", (socket) => {
-  socket.emit("test", "connected");
-});
-
 app.use(web);
 app.use(errorMidleware);
 

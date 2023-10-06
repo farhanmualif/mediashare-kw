@@ -1,17 +1,13 @@
 import { userServices } from "../../services/userServices.js";
-import prisma from "../app/database.js";
 import { mediServices } from "../../services/mediaServices.js";
 import { io } from "../../index.js";
+import { mediaRepository } from "../../repository/mediaRepository.js";
 
-const showNewData = async (req) => {
-  const data = await prisma.media.findMany({
-    where: {
-      receiverId: req.params.uuid,
-      played: false,
-    },
-  });
+const showNewData = async (uuid) => {
+  const data = await mediaRepository.getMedia(uuid);
   io.emit("newData", data);
 };
+
 
 const mediaShareController = {
   sendDonationForm: async (req, res) => {
@@ -23,8 +19,8 @@ const mediaShareController = {
 
   sendDonation: async (req, res, next) => {
     try {
-      await mediServices.insertMedia(req.body);
-      showNewData(req);
+      const media = await mediServices.insertMedia(req.body);
+      showNewData(media.uuid);
       res.redirect("back");
     } catch (e) {
       next(e);
