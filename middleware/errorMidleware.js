@@ -9,15 +9,15 @@ const errorMidleware = (err, req, res, next) => {
   if (err instanceof Prisma.PrismaClientValidationError) {
     req.flash("failure", err.message);
     res.redirect("back");
-    throw err.message
+    throw err.message;
   } else if (err instanceof ErrorException) {
     req.flash("failure", err.message);
     res.redirect("back");
-    throw err.message
+    throw err.message;
   } else {
     req.flash("failure", err.message);
     res.redirect("back");
-    throw err.message
+    throw err.message;
   }
 };
 
