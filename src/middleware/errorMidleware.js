@@ -1,5 +1,5 @@
 import { Prisma } from "@prisma/client";
-import ErrorException from "../src/error/ErrorException.js";
+import ErrorException from "../error/ErrorException.js";
 
 const errorMidleware = (err, req, res, next) => {
   if (!err) {

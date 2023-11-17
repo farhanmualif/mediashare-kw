@@ -29,10 +29,11 @@ model Media {
   name          String
   nominal       Int
   played        Boolean  @default(false)
-  message       String
+  message       String  
   linkMedia     String
+  typeMedia     String
   startAtSecond String   @default("5")
-  duration      String   @default("5000") 
+  duration      String   @default("5000")
   paymentMethod String
   createdAt     DateTime @default(now())
   updatedAt     DateTime @default(now())

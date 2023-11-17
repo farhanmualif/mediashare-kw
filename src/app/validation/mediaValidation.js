@@ -9,6 +9,7 @@ const sendMediaValidation = Joi.object({
   receiverId: Joi.string().required(),
   duration: Joi.string().required().allow(""),
   startAtSecond: Joi.string().required(),
+  typeMedia: Joi.string().required(),
 });
 
 export default { sendMediaValidation };

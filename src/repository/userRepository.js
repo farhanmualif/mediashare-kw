@@ -1,4 +1,4 @@
-import prisma from "../src/app/database.js";
+import prisma from "../app/database.js";
 
 export const userRepository = {
   getUser: async (where) => {

@@ -8,6 +8,3 @@ const checked = $("#paymentMode").change(function () {
   }
 });
 
-
-
-

@@ -1,13 +1,6 @@
-import { userServices } from "../../services/userServices.js";
-import { mediServices } from "../../services/mediaServices.js";
-import { io } from "../../index.js";
-import { mediaRepository } from "../../repository/mediaRepository.js";
-
-const showNewData = async (uuid) => {
-  const data = await mediaRepository.getMedia(uuid);
-  io.emit("newData", data);
-};
-
+import { userServices } from "../services/userServices.js";
+import { mediServices } from "../services/mediaServices.js";
+import { showNewDataTrigger } from "../../helper/triggerHandler.js";
 
 const mediaShareController = {
   sendDonationForm: async (req, res) => {
@@ -19,9 +12,8 @@ const mediaShareController = {
 
   sendDonation: async (req, res, next) => {
     try {
-      console.log("link", )
       const media = await mediServices.insertMedia(req.body);
-      showNewData(media.uuid);
+      showNewDataTrigger(media.uuid);
       res.redirect("back");
     } catch (e) {
       next(e);

@@ -1,4 +1,4 @@
-import { userServices } from "../../services/userServices.js";
+import { userServices } from "../services/userServices.js";
 import prisma from "../app/database.js";
 
 const userController = {

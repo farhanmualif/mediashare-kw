@@ -1,4 +1,4 @@
-import prisma from "../src/app/database.js";
+import prisma from "../app/database.js";
 
 export const mediaRepository = {
   insertMedia: (data) => {
@@ -17,5 +17,14 @@ export const mediaRepository = {
       },
     });
     return media;
+  },
+
+  updateWhere: async ({ where, data }) => {
+    const updateMediaData = await prisma.media.update({
+      where,
+      data,
+    });
+
+    return updateMediaData;
   },
 };

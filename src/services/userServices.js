@@ -1,12 +1,12 @@
 import { userRepository } from "../repository/userRepository.js";
-import prisma from "../src/app/database.js";
+import prisma from "../../src/app/database.js";
 import {
   registerUserValidation,
   loginUserValidation,
-} from "../src/app/validation/userValildation.js";
-import validation from "../src/app/validation/validation.js";
+} from "../../src/app/validation/userValildation.js";
+import validation from "../../src/app/validation/validation.js";
 import bcrypt from "bcrypt";
-import ErrorException from "../src/error/ErrorException.js";
+import ErrorException from "../../src/error/ErrorException.js";
 
 export const userServices = {
   getUser: async (where) => {
