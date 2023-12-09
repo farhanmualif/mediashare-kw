@@ -1,17 +1,6 @@
-import { userServices } from "../../services/userServices.js";
-import prisma from "../app/database.js";
-import { mediServices } from "../../services/mediaServices.js";
-import { io } from "../../index.js";
-
-const showNewData = async (req) => {
-  const data = await prisma.media.findMany({
-    where: {
-      receiverId: req.params.uuid,
-      played: false,
-    },
-  });
-  io.emit("newData", data);
-};
+import { userServices } from "../services/userServices.js";
+import { mediServices } from "../services/mediaServices.js";
+import { showNewDataTrigger } from "../../helper/triggerHandler.js";
 
 const mediaShareController = {
   sendDonationForm: async (req, res) => {
@@ -23,8 +12,8 @@ const mediaShareController = {
 
   sendDonation: async (req, res, next) => {
     try {
-      await mediServices.insertMedia(req.body);
-      showNewData(req);
+      const media = await mediServices.insertMedia(req.body);
+      showNewDataTrigger(media.uuid);
       res.redirect("back");
     } catch (e) {
       next(e);

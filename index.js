@@ -1,7 +1,7 @@
 import express from "express";
 import winston from "winston";
 import env from "dotenv/config";
-import web from "./routes/api.js";
+import web from "./src/routes/api.js";
 import path from "path";
 import url from "url";
 import http from "http";
@@ -10,7 +10,8 @@ import bodyParser from "body-parser";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 import flash from "connect-flash";
-import errorMidleware from "./middleware/errorMidleware.js";
+import errorMidleware from "./src/middleware/errorMidleware.js";
+import { videoPlayingTrigger } from "./helper/triggerHandler.js";
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -43,7 +44,6 @@ app.use(
 );
 // flash
 app.use(flash());
-
 app.use((req, res, next) => {
   res.locals.req = req;
   res.locals.res = res;
@@ -62,12 +62,10 @@ const logger = winston.createLogger({
 app.set(env);
 
 app.use(express.json());
-io.on("connection", (socket) => {
-  socket.emit("test", "connected");
-});
-
 app.use(web);
 app.use(errorMidleware);
+
+videoPlayingTrigger();
 
 server.listen(process.env.PORT, () => {
   logger.log({

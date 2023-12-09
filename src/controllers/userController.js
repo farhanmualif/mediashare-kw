@@ -1,4 +1,4 @@
-import { userServices } from "../../services/userServices.js";
+import { userServices } from "../services/userServices.js";
 import prisma from "../app/database.js";
 
 const userController = {
@@ -66,7 +66,6 @@ const userController = {
         req.flash("failure", login.message);
         res.redirect("back");
       }
-      console.log(login);
       req.session.name = login.user.name;
       req.session.logged = true;
       req.session.uuid = login.user.uuid;

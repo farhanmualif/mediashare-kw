@@ -1,6 +1,6 @@
 import express from "express";
-import { userController } from "../src/controllers/userController.js";
-import mediaShareController from "../src/controllers/mediaShareController.js";
+import { userController } from "../controllers/userController.js";
+import mediaShareController from "../controllers/mediaShareController.js";
 import { authentication } from "../middleware/authenthication.js";
 import uploadFile from "../middleware/multer.js";
 const web = express.Router();

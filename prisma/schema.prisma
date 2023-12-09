@@ -10,16 +10,20 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
+
 model User {
-  id        Int      @id @default(autoincrement())
-  uuid      String   @unique @default(uuid())
-  email     String   @unique
-  name      String?
-  password  String
-  images    String   @default("default.png")
-  createdAt DateTime @default(now())
-  updatedAt DateTime @default(now())
-  Media     Media[]
+  id           Int      @id @default(autoincrement())
+  uuid         String   @unique @default(uuid())
+  email        String   @unique
+  name         String?
+  password     String
+  images       String   @default("default.png")
+  openDonation Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @default(now())
+  Media        Media[]
+  Token        Token?
 }
 
 model Media {
@@ -30,11 +34,19 @@ model Media {
   played        Boolean  @default(false)
   message       String
   linkMedia     String
-  startAtSecond String   @default("0")
-  duration      String   @default("6000")
+  typeMedia     String
+  startAtSecond String   @default("5")
+  duration      String   @default("5000")
   paymentMethod String
   createdAt     DateTime @default(now())
   updatedAt     DateTime @default(now())
   receiverId    String
   User          User     @relation(fields: [receiverId], references: [uuid])
+}
+
+model Token {
+  id       Int    @id @default(autoincrement())
+  User     User   @relation(fields: [userUUID], references: [uuid])
+  userUUID String @unique
+  token    String @db.Text
 }
