@@ -10,6 +10,8 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+
+
 model User {
   id           Int      @id @default(autoincrement())
   uuid         String   @unique @default(uuid())
@@ -21,6 +23,7 @@ model User {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @default(now())
   Media        Media[]
+  Token        Token?
 }
 
 model Media {
@@ -29,7 +32,7 @@ model Media {
   name          String
   nominal       Int
   played        Boolean  @default(false)
-  message       String  
+  message       String
   linkMedia     String
   typeMedia     String
   startAtSecond String   @default("5")
@@ -39,4 +42,11 @@ model Media {
   updatedAt     DateTime @default(now())
   receiverId    String
   User          User     @relation(fields: [receiverId], references: [uuid])
+}
+
+model Token {
+  id       Int    @id @default(autoincrement())
+  User     User   @relation(fields: [userUUID], references: [uuid])
+  userUUID String @unique
+  token    String @db.Text
 }

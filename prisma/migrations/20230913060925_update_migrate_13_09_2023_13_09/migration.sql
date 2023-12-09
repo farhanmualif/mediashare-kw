@@ -1,2 +1,0 @@
--- AlterTable
-ALTER TABLE `media` ADD COLUMN `fromSecondTo` VARCHAR(191) NOT NULL DEFAULT '5';

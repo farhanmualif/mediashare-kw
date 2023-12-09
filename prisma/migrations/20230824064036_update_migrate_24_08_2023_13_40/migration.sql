@@ -1,3 +1,0 @@
--- AlterTable
-ALTER TABLE `media` ADD COLUMN `duration` VARCHAR(191) NOT NULL DEFAULT '6000',
-    ADD COLUMN `startAtSecond` VARCHAR(191) NOT NULL DEFAULT '0';

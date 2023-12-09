@@ -17,6 +17,7 @@ function playNextVideo() {
   const dataMedia = videoQueue.shift();
   if (dataMedia.typeMedia == "youtube") {
     playYoutubeVideo(
+      dataMedia.id,
       getIDfromURLYoutube(dataMedia.linkMedia),
       dataMedia.startAtSecond,
       dataMedia.duration
@@ -24,7 +25,6 @@ function playNextVideo() {
   } else if (dataMedia.typeMedia == "tiktok") {
     playTikTokVideo(dataMedia);
   }
-  console.log("berofe to return", dataMedia);
   return dataMedia;
 }
 
@@ -44,5 +44,4 @@ function sendTriggerStatusVideo(status, id) {
     status: status,
     id: id,
   });
-  console.log("emmit sender");
 }

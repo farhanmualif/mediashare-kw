@@ -6,15 +6,11 @@ import getTypeMedia from "./getTypeMedia.js";
 
 const videoPlayingTrigger = () => {
   io.on("connection", (socket) => {
-    // console.log("test...");
-    socket.on("the video has played", (message) => {
-      console.log(message);
-      if (message == false) {
-        const result = mediaRepository.updateWhere({
-          id: message.id,
-          played: true,
+    socket.on("the video has played", async (message) => {
+      if (message.status == true) {
+        await mediaRepository.updateById(message.id, {
+          played: message.status,
         });
-        console.log(result);
       }
     });
   });
@@ -33,6 +29,7 @@ const getDataTiktok = async (tiktokUrl) => {
 const showNewDataTrigger = async (uuid) => {
   const data = await mediaRepository.getMedia(uuid);
   const typeMedia = getTypeMedia(data.linkMedia);
+
   if (typeMedia == "tiktok") {
     const htmlTiktokEmbed = await getDataTiktok(data.linkMedia);
     data.tiktokEmbed = htmlTiktokEmbed;

@@ -61,7 +61,6 @@
       function onYouTubeIframeAPIReady() {
         console.log("onYouTubeIframeAPIReady... ");
         socket.on("newData", (data) => {
-          console.log("datanya:", data);
           if (data.tiktokEmbed == undefined) {
             videoQueue.push({
               id: data.id,
@@ -105,19 +104,11 @@
       // 5. The API calls this function when the player's state changes.
       //    The function indicates that when playing a video (state=1),
       //    the player should play for six seconds and then stop.
+      let captureData;
       var done = false;
-      function stopVideo() {
-        console.log("stop video");
-        player.stopVideo();
-        player.destroy();
-        videoPlaying = true;
-        const captureData = playNextVideo();
-        console.log("capture: ", captureData);
-        sendTriggerStatusVideo(videoPlaying, captureData.id);
-      }
 
       // call this function will play a video on browser
-      function playYoutubeVideo(videoId, startAtSecond, duration) {
+      function playYoutubeVideo(id, videoId, startAtSecond, duration) {
         const endSecond = startAtSecond + duration;
         player = new YT.Player("player", {
           height: "390",
@@ -135,7 +126,13 @@
             onReady: onPlayerReady,
             onStateChange: (event) => {
               if (event.data == YT.PlayerState.PLAYING) {
-                setTimeout(stopVideo, duration * 1000);
+                setTimeout(() => {
+                  console.log("stop video");
+                  player.stopVideo();
+                  player.destroy();
+                  videoPlaying = true;
+                  sendTriggerStatusVideo(videoPlaying, id);
+                }, duration * 1000);
               }
             }, // onPlayerStateChange
           },
@@ -148,7 +145,6 @@
           status: status,
           id: id,
         });
-        console.log("emmit sender");
       }
     </script>
   </body>

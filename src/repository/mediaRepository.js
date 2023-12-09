@@ -10,7 +10,7 @@ export const mediaRepository = {
     return mediaCreated;
   },
 
-  getMedia: (uuid) => {
+  getMedia: (uuid = null) => {
     const media = prisma.media.findUnique({
       where: {
         uuid,
@@ -19,12 +19,13 @@ export const mediaRepository = {
     return media;
   },
 
-  updateWhere: async ({ where, data }) => {
+  updateById: async (id, data) => {
     const updateMediaData = await prisma.media.update({
-      where,
+      where: {
+        id,
+      },
       data,
     });
-
     return updateMediaData;
   },
 };
