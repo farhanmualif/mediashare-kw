@@ -6,7 +6,7 @@
 
 [build]
   base    = ""
-  publish = "public"
+  publish = "src/views"
   command = "npm run build" 
 
 [build.environment]
