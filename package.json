@@ -7,7 +7,7 @@
   "scripts": {
     "build": "npm i && npx prisma generate && npx prisma migrate deploy",
     "test": "jest",
-    "start": "nodemon index"
+    "start": "node index.js"
   },
   "jest": {
     "transform": {
