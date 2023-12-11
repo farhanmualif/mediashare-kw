@@ -1,7 +1,7 @@
 import express from "express";
 import winston from "winston";
 import env from "dotenv/config";
-import web from "./src/routes/api.js";
+import web from "./routes/api.js";
 import path from "path";
 import url from "url";
 import http from "http";
@@ -10,8 +10,8 @@ import bodyParser from "body-parser";
 import session from "express-session";
 import cookieParser from "cookie-parser";
 import flash from "connect-flash";
-import errorMidleware from "./src/middleware/errorMidleware.js";
-import { videoPlayingTrigger } from "./helper/triggerHandler.js";
+import errorMidleware from "./middleware/errorMidleware.js";
+import { videoPlayingTrigger } from "../helper/triggerHandler.js";
 import serverless from "serverless-http";
 
 const __filename = url.fileURLToPath(import.meta.url);
@@ -21,12 +21,11 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
+app.use(express.static(path.join(__dirname, "public")));
 
-app.use(express.static(path.join(__dirname, "src/public")));
+app.use("/static", express.static(path.join(__dirname, "public")));
 
-app.use("/static", express.static(path.join(__dirname, "src/public")));
-
-app.set("views", path.join(__dirname, "src/views"));
+app.set("views", path.join(__dirname, "public/views"));
 app.set("view engine", "ejs");
 
 app.use(bodyParser.json());
@@ -67,6 +66,7 @@ app.set(env);
 
 app.use(express.json());
 app.use(web);
+app.use("/", web);
 app.use(errorMidleware);
 
 videoPlayingTrigger();
@@ -78,6 +78,6 @@ server.listen(process.env.PORT, () => {
   });
 });
 
-const handler = serverless(app)
+const handler = serverless(app);
 
 export { io, app, handler };
