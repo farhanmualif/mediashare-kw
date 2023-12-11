@@ -78,6 +78,5 @@ server.listen(process.env.PORT, () => {
   });
 });
 
-const handler = serverless(app);
-
-export { io, app, handler };
+export const handler = serverless(app);
+export { io, app };
