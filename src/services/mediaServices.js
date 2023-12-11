@@ -7,6 +7,7 @@ export const mediServices = {
     if (request.nominal === "") {
       request.nominal = 0;
     }
+
     if (request.paymentMethod === "Choose...") {
       request.paymentMethod = "";
     }
@@ -28,6 +29,7 @@ export const mediServices = {
     request.receiverId = uuidReciver;
     request.nominal = parseInt(request.nominal);
     delete request.linkDonatur;
+    
     // validation
     const value = validation(mediaValidation.sendMediaValidation, request);
     // insert request

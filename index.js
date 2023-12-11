@@ -12,6 +12,7 @@ import cookieParser from "cookie-parser";
 import flash from "connect-flash";
 import errorMidleware from "./src/middleware/errorMidleware.js";
 import { videoPlayingTrigger } from "./helper/triggerHandler.js";
+import serverless from "serverless-http";
 
 const __filename = url.fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -74,4 +75,6 @@ server.listen(process.env.PORT, () => {
   });
 });
 
-export { io, app };
+const handler = serverless(app)
+
+export { io, app, handler };
