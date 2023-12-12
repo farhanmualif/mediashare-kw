@@ -6,8 +6,9 @@
   "type": "module",
   "scripts": {
     "build": "npm i && npx prisma generate && npx prisma migrate deploy",
+    "serve": "netlify-lamba build src",
     "test": "jest",
-    "start": "node src/index.js"
+    "start": "nodemon src/index.js"
   },
   "jest": {
     "transform": {
