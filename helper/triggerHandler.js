@@ -1,5 +1,5 @@
 import axios from "axios";
-import { io } from "../index.js";
+import { io } from "../app.js";
 import ErrorException from "../src/error/ErrorException.js";
 import { mediaRepository } from "../src/repository/mediaRepository.js";
 import getTypeMedia from "./getTypeMedia.js";

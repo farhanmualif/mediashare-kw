@@ -67,10 +67,8 @@ app.use(express.json());
 
 app.use(web);
 
-app.use("/", web);
+app.use("/app", web);
 app.use(errorMidleware);
-
-app.use("./netlify/functions/index", web);
 
 videoPlayingTrigger();
 
