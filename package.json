@@ -5,7 +5,7 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "build": "npm i && babel src -d dist && npx prisma generate && npx prisma migrate deploy",
+    "build": "npm i && npx prisma generate && npx prisma migrate deploy",
     "serve": "netlify-lamba build src",
     "test": "jest",
     "start": "nodemon app.js"
