@@ -5,10 +5,10 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "build": "npm i && npx prisma generate && npx prisma migrate deploy",
-    "serve": "netlify-lamba build src",
+    "build": "npx prisma generate && npx prisma migrate deploy",
     "test": "jest",
-    "start": "nodemon app.js"
+    "dev": "node app.js",
+    "start": "npm run build && node --watch app.js"
   },
   "jest": {
     "transform": {

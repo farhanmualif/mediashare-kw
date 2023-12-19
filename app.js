@@ -21,11 +21,11 @@ const app = express();
 const server = http.createServer(app);
 const io = new Server(server);
 
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "src/public")));
 
-app.use("/static", express.static(path.join(__dirname, "public")));
+app.use("/static", express.static(path.join(__dirname, "src/public")));
 
-app.set("views", path.join(__dirname, "public/views"));
+app.set("views", path.join(__dirname, "src/public/views"));
 app.set("view engine", "ejs");
 
 app.use(bodyParser.json());
@@ -71,13 +71,14 @@ app.use("/app", web);
 app.use(errorMidleware);
 
 videoPlayingTrigger();
+const port = process.env.PORT || 3000;
 
-server.listen(process.env.PORT, () => {
+server.listen(port, () => {
   logger.log({
     level: "info",
-    message: "Server runing on port " + process.env.PORT,
+    message: "Server runing on port " + port,
   });
 });
 
-exports.handler = serverless(app);
-export { io, app };
+const handler = serverless(app);
+export { io, app, handler };
