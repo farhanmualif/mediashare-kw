@@ -8,12 +8,12 @@ const upload = uploadFile();
 
 web.get("/", mediaShareController.sendDonationForm);
 web.get("/form/register", userController.registerForm);
+web.get("/form/login", userController.loginForm);
 web.post("/register", userController.register);
 web.post("/login", userController.login);
-web.get("/form/login", userController.loginForm);
-web.post("/sendDonation", mediaShareController.sendDonation);
+web.post("/send-donation", mediaShareController.sendDonation);
 web.get("/display/:uuid", userController.display);
-web.get("/index/:name", mediaShareController.sendDonationForm);
+web.get("/donate/:name", mediaShareController.sendDonationForm);
 
 web.use(authentication);
 web.get("/index", userController.index);

@@ -1,10 +1,15 @@
 import prisma from "../app/database.js";
 
 export const userRepository = {
-  getUser: async (where) => {
-    const user = await prisma.user.findFirst({
-      where,
-    });
+  getUser: async (where, select) => {
+    const user = await prisma.user.findUniqueOrThrow(
+      {
+        where,
+      },
+      {
+        select,
+      }
+    );
     if (!user) {
       return null;
     }

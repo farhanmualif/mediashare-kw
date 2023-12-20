@@ -29,7 +29,7 @@ export const mediServices = {
     request.receiverId = uuidReciver;
     request.nominal = parseInt(request.nominal);
     delete request.linkDonatur;
-    
+
     // validation
     const value = validation(mediaValidation.sendMediaValidation, request);
     // insert request

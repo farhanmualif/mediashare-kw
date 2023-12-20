@@ -69,6 +69,7 @@ const userController = {
       req.session.name = login.user.name;
       req.session.logged = true;
       req.session.uuid = login.user.uuid;
+      req.session.image = login.user.images;
       req.flash("success", login.message);
       res.redirect("/index");
     } catch (error) {

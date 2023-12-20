@@ -4,13 +4,11 @@
     <a class="btn btn-primary float-end" href="<%= "/form/login" %>" role="button">Login</a>
   </div>
   
-  <form method="post" class="mb-5" action="/sendDonation" id="form">
+  <form method="post" class="mb-5" action="/send-donation" id="form">
     <h1>Send Donation</h1>
-
     <% if (failure_alert != "") { %>
         <div class="alert alert-danger" role="alert"><%= failure_alert %></div>
     <% } %>
-
     <% if (typeof req.params.name === "undefined") { %>
     <div class="container"></div>
     <% } else { %>
@@ -19,7 +17,7 @@
         200px; height: auto;" alt="avatar2" src="<%= "/static/images/"+user.images
         %>"/>
       </div>
-    <% } %>
+    <% } %> 
 
     <div class="mb-3 mt-5">
       <label for="name" class="form-label">Name</label>
@@ -56,7 +54,7 @@
         name="linkDonatur"
         class="form-control"
         id="linkDonatur"
-        value="http://<%=req.hostname %>:3000/display/<%= user.uuid %>"
+        value="http://<%=req.hostname %>:3000/display/<%= req.session.uuid %>"
         hidden />
     </div>
     <% } %>

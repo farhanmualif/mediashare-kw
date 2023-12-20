@@ -9,8 +9,8 @@ import bcrypt from "bcrypt";
 import ErrorException from "../../src/error/ErrorException.js";
 
 export const userServices = {
-  getUser: async (where) => {
-    const user = await userRepository.getUser(where);
+  getUser: async (where, select) => {
+    const user = await userRepository.getUser(where, select);
     return user;
   },
 
