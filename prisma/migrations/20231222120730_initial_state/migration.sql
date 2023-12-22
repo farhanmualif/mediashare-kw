@@ -12,6 +12,7 @@ CREATE TABLE `User` (
 
     UNIQUE INDEX `User_uuid_key`(`uuid`),
     UNIQUE INDEX `User_email_key`(`email`),
+    UNIQUE INDEX `User_name_key`(`name`),
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
@@ -30,7 +31,7 @@ CREATE TABLE `Media` (
     `paymentMethod` VARCHAR(191) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
-    `receiverId` VARCHAR(191) NOT NULL,
+    `recipientsName` VARCHAR(191) NOT NULL,
 
     UNIQUE INDEX `Media_uuid_key`(`uuid`),
     PRIMARY KEY (`id`)
@@ -47,7 +48,7 @@ CREATE TABLE `Token` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- AddForeignKey
-ALTER TABLE `Media` ADD CONSTRAINT `Media_receiverId_fkey` FOREIGN KEY (`receiverId`) REFERENCES `User`(`uuid`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Media` ADD CONSTRAINT `Media_recipientsName_fkey` FOREIGN KEY (`recipientsName`) REFERENCES `User`(`name`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Token` ADD CONSTRAINT `Token_userUUID_fkey` FOREIGN KEY (`userUUID`) REFERENCES `User`(`uuid`) ON DELETE RESTRICT ON UPDATE CASCADE;

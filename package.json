@@ -8,7 +8,7 @@
     "build": "npx prisma generate && npx prisma migrate deploy",
     "test": "jest",
     "dev": "nodemon app.js",
-    "start": "npm run build && node --watch app.js",
+    "start": "npm run build && node app.js",
     "publish": "git push heroku master"
   },
   "jest": {
