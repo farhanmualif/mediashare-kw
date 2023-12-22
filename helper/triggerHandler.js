@@ -26,8 +26,10 @@ const getDataTiktok = async (tiktokUrl) => {
   }
 };
 
-const showNewDataTrigger = async (uuid) => {
-  const data = await mediaRepository.getMedia(uuid);
+const showNewDataTrigger = async (name) => {
+  const data = await mediaRepository.getMedia({
+    recipientsName: name,
+  });
   const typeMedia = getTypeMedia(data.linkMedia);
 
   if (typeMedia == "tiktok") {

@@ -1,6 +1,5 @@
-export default function getTypeMedia(mediaLink) {
-  const splited = mediaLink.split("/");
-  const getLink = splited[2];
-  const linkSplited = getLink.split(".");
-  return linkSplited[1];
+export default function getTypeMedia(linkMedia) {
+  const linkSlplited = linkMedia.split("/");
+  const typeMedia = linkSlplited[2].split(".")[1];
+  return typeMedia;
 }

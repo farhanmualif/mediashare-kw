@@ -6,9 +6,13 @@
   
   <form method="post" class="mb-5" action="/send-donation" id="form">
     <h1>Send Donation</h1>
-    <% if (failure_alert != "") { %>
-        <div class="alert alert-danger" role="alert"><%= failure_alert %></div>
-    <% } %>
+    
+      <% if (failure_alert != "") { %>
+      <div class="alert alert-danger" role="alert"><%= failure_alert %></div>
+      <% } else if(success_alert != "") { %>
+      <div class="alert alert-success" role="alert"><%= success_alert %></div>
+      <% } %>
+    
     <% if (typeof req.params.name === "undefined") { %>
     <div class="container"></div>
     <% } else { %>
@@ -54,8 +58,9 @@
         name="linkDonatur"
         class="form-control"
         id="linkDonatur"
-        value="http://<%=req.hostname %>:3000/display/<%= req.session.uuid %>"
-        hidden />
+        value="<%= req.params.name; %>"
+        hidden
+        />
     </div>
     <% } %>
 

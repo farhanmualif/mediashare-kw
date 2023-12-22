@@ -3,6 +3,8 @@
 <div
   class="container min-vh-100 d-flex justify-content-center align-items-center">
   <form method="post" action="/login" class="border rounded-1 p-3">
+
+    
     <% if (failure_alert != "") { %>
     <div class="alert alert-danger" role="alert"><%= failure_alert %></div>
     <% } else if(success_alert != "") { %>

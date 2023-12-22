@@ -30,7 +30,8 @@ const mediaShareController = {
   sendDonation: async (req, res, next) => {
     try {
       const media = await mediServices.insertMedia(req.body);
-      showNewDataTrigger(media.uuid);
+      showNewDataTrigger(media.recipientsName);
+      req.flash("success", "send donation successfully");
       res.redirect("back");
     } catch (e) {
       next(e);

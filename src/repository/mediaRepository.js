@@ -6,15 +6,12 @@ export const mediaRepository = {
     const mediaCreated = prisma.media.create({
       data,
     });
-
     return mediaCreated;
   },
 
-  getMedia: (uuid = null) => {
-    const media = prisma.media.findUnique({
-      where: {
-        uuid,
-      },
+  getMedia: (where) => {
+    const media = prisma.media.findFirstOrThrow({
+      where: where,
     });
     return media;
   },

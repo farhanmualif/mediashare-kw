@@ -1,37 +1,24 @@
 import { mediaRepository } from "../repository/mediaRepository.js";
 import validation from "../app/validation/validation.js";
 import mediaValidation from "../app/validation/mediaValidation.js";
+import formHandler from "../../helper/formHandler.js";
+import getTypeMedia from "../../helper/getTypeMedia.js";
+import getRecipientName from "../../helper/getRecipientName.js";
 
 export const mediServices = {
   insertMedia: async (request) => {
-    if (request.nominal === "") {
-      request.nominal = 0;
-    }
+    const reqForm = formHandler(request);
 
-    if (request.paymentMethod === "Choose...") {
-      request.paymentMethod = "";
-    }
+    /* get type media */
+    reqForm.typeMedia = getTypeMedia(reqForm.linkMedia);
 
-    if (request.startFrom === "") {
-      request.startFrom = "0";
-    }
-
-    if (request.duration === "") {
-      request.duration = "5";
-    }
-
-    const linkSlplited = request.linkMedia.split("/");
-    const typeMedia = linkSlplited[2].split(".")[1];
-
-    request.typeMedia = typeMedia;
-    const splitLinkDonatur = request.linkDonatur.split("/");
-    const uuidReciver = splitLinkDonatur[splitLinkDonatur.length - 1];
-    request.receiverId = uuidReciver;
-    request.nominal = parseInt(request.nominal);
-    delete request.linkDonatur;
+    /* get recipient Name */
+    reqForm.recipientsName = getRecipientName(reqForm.linkDonatur);
+    reqForm.nominal = parseInt(reqForm.nominal);
+    delete reqForm.linkDonatur;
 
     // validation
-    const value = validation(mediaValidation.sendMediaValidation, request);
+    const value = validation(mediaValidation.sendMediaValidation, reqForm);
     // insert request
     const insert = mediaRepository.insertMedia(value);
     return insert;

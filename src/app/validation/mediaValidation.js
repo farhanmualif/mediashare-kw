@@ -6,7 +6,7 @@ const sendMediaValidation = Joi.object({
   message: Joi.string().required(),
   linkMedia: Joi.string().required(),
   paymentMethod: Joi.string().allow(""),
-  receiverId: Joi.string().required(),
+  recipientsName: Joi.string().required(),
   duration: Joi.string().required().allow(""),
   startAtSecond: Joi.string().required(),
   typeMedia: Joi.string().required(),

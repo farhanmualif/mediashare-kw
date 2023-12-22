@@ -1,5 +1,6 @@
 import { userServices } from "../services/userServices.js";
 import prisma from "../app/database.js";
+import { userRepository } from "../repository/userRepository.js";
 
 const userController = {
   index: async (req, res) => {
@@ -15,28 +16,23 @@ const userController = {
     res.render("detail-profile", { user: user[0] });
   },
 
-  display: async (req, res) => {
-    const datas = await prisma.media.findMany({
-      where: {
-        receiverId: req.params.uuid,
-        played: false,
-      },
-    });
-
-    if (datas.length > 0) {
-      setTimeout(async () => {
-        await prisma.media.update({
-          where: {
-            id: datas[0].id,
-            receiverId: req.params.uuid,
-          },
-          data: {
-            played: true,
-          },
-        });
-      }, datas[0].duration);
+  display: async (req, res, next) => {
+    try {
+      const checkUser = await userRepository.getUser(
+        {
+          uuid: req.params.uuid,
+        },
+        {
+          name: true,
+        }
+      );
+      if (!checkUser) {
+        res.redirect("/");
+      }
+      res.render("display");
+    } catch (error) {
+      next(error);
     }
-    res.render("display", { datas });
   },
 
   registerForm: (req, res) => {
