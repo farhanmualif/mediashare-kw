@@ -33,25 +33,23 @@
           <label for="generateLink" class="form-label"
             >Generate media page</label
           >
-          <input
-            type="text"
-            class="form-control"
-            id="generateLink"
-            aria-describedby="emailHelp"
-            value="http://<%=req.hostname %>:3000/display/<%=req.session.uuid %>"
-            disabled />
+          <input type="text" class="form-control" id="generateLink"
+          aria-describedby="emailHelp" <% if (process.env.NODE_ENV
+          =="development") { %> value="http://<%=req.hostname
+          %>:3000/display/<%=req.session.uuid %>" <% } else { %>
+          value="http://<%=req.hostname %>/display/<%=req.session.uuid %>" <% }
+          %> disabled />
 
           <div id="emailHelp" class="form-text">copas this link to OBS</div>
         </div>
         <div class="mb-3">
           <label for="myLink" class="form-label">Generate my link</label>
-          <input
-            type="text"
-            class="form-control"
-            id="myLink"
-            aria-describedby="emailHelp"
-            value="http://<%=req.hostname %>:3000/donate/<%=req.session.name %>"
-            disabled />
+          <input type="text" class="form-control" id="myLink"
+          aria-describedby="emailHelp" <% if (process.env.NODE_ENV ==
+          "development") { %> value="http://<%=req.hostname
+          %>:3000/donate/<%=req.session.name %>" <% } else { %>
+          value="http://<%=req.hostname %>/donate/<%=req.session.name %>" <% }
+          %> disabled />
 
           <div id="emailHelp" class="form-text">
             share this link to your viewers
