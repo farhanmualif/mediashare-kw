@@ -26,7 +26,7 @@ const getDataTiktok = async (tiktokUrl) => {
   }
 };
 
-const showNewDataTrigger = async (name) => {
+const showNewDataTriggerIntoRecipent = async (name) => {
   const data = await mediaRepository.getMedia({
     recipientsName: name,
   });
@@ -39,4 +39,4 @@ const showNewDataTrigger = async (name) => {
   io.emit("newData", data);
 };
 
-export { videoPlayingTrigger, showNewDataTrigger };
+export { videoPlayingTrigger, showNewDataTriggerIntoRecipent };

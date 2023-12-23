@@ -1,6 +1,6 @@
 <%- include('template/head') %>
-<div class="container mt-5">
 
+<div class="container mt-5">
   <% if (req.session.logged) { %>
     <form action="/logout" method="post">
       <button type="submit" class="btn btn-danger float-end">logout</button>
@@ -10,9 +10,7 @@
       <a class="btn btn-primary float-end" href="<%= "/form/login" %>" role="button">Login</a>
     </div>
   <% } %>
-
-  
-  <form method="post" class="mb-5" action="/send-donation" id="form">
+  <form method="post" action="/send-donation" class="mb-5" id="form">
     <h1>Send Donation</h1>
     
       <% if (failure_alert != "") { %>
@@ -124,12 +122,7 @@
         </select>
       </div>
     </div>
-
-    
-
-    <button type="submit" class="btn btn-primary">Submit</button>
-    
+    <button type="submit" class="btn btn-primary" id="pay-button">Submit</button>
   </form>
 </div>
-<script src="/socket.io/socket.io.js"></script>
 <%- include('template/foot') %>

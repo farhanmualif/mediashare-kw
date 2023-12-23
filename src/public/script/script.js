@@ -8,3 +8,8 @@ const checked = $("#paymentMode").change(function () {
   }
 });
 
+/* midtrans hit api */
+
+// payButton.addEventListener("click", function () {
+//   console.log("pay button clicked");
+// });

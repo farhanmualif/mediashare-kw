@@ -1,0 +1,19 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script
+      type="text/javascript"
+      src="https://app.sandbox.midtrans.com/snap/snap.js"
+      data-client-key="<%= clientKey %>"></script>
+  </head>
+  <body>
+    <input type="text" id="token" value="<%= token %>" hidden />
+    <script src="/socket.io/socket.io.js" async></script>
+    <script type="text/javascript">
+      const token = document.getElementById("token").value;
+      setTimeout(() => {
+        window.snap.pay(token);
+      }, 1000);
+    </script>
+  </body>
+</html>

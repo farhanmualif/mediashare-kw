@@ -11,7 +11,7 @@ web.get("/form/register", userController.registerForm);
 web.get("/form/login", userController.loginForm);
 web.post("/register", userController.register);
 web.post("/login", userController.login);
-web.post("/send-donation", mediaShareController.sendDonation);
+web.post("/send-donation", mediaShareController.payment);
 web.get("/display/:uuid", userController.display);
 web.get("/donate/:name", mediaShareController.sendDonationForm);
 

@@ -1,6 +1,16 @@
 import { userServices } from "../services/userServices.js";
 import { mediServices } from "../services/mediaServices.js";
-import { showNewDataTrigger } from "../../helper/triggerHandler.js";
+import { showNewDataTriggerIntoRecipent } from "../../helper/triggerHandler.js";
+import midtransClient from "midtrans-client";
+import { v4 as uuidv4 } from "uuid";
+import { io } from "../../app.js";
+
+/* Configure midtrans */
+let snap = new midtransClient.Snap({
+  isProduction: false,
+  serverKey: process.env.MIDTRANS_SERVER_KEY,
+  clientKey: process.env.MIDTRANS_CLIENT_KEY,
+});
 
 const mediaShareController = {
   sendDonationForm: async (req, res, next) => {
@@ -27,14 +37,31 @@ const mediaShareController = {
     }
   },
 
-  sendDonation: async (req, res, next) => {
+  payment: async (req, res, next) => {
     try {
-      const media = await mediServices.insertMedia(req.body);
-      showNewDataTrigger(media.recipientsName);
-      req.flash("success", "send donation successfully");
-      res.redirect("back");
+      // const media = await mediServices.insertMedia(req.body);
+      /* Midtrans Implementation */
+      let parameter = {
+        transaction_details: {
+          order_id: uuidv4(),
+          gross_amount: req.body.nominal,
+        },
+      };
+      /* respons token from midtrans */
+      const token = await snap.createTransactionToken(parameter);
+      const clientKey = process.env.MIDTRANS_CLIENT_KEY;
+      res.render("payment", { token, clientKey });
     } catch (e) {
       next(e);
+    }
+  },
+
+  payNow: async (req, res, next) => {
+    try {
+      // showNewDataTriggerIntoRecipent(media.recipientsName);
+      req.flash("success", "send donation successfully");
+    } catch (error) {
+      next(error);
     }
   },
 };
