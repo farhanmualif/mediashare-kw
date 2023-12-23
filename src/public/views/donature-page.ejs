@@ -1,8 +1,16 @@
 <%- include('template/head') %>
 <div class="container mt-5">
-  <div class="container">
-    <a class="btn btn-primary float-end" href="<%= "/form/login" %>" role="button">Login</a>
-  </div>
+
+  <% if (req.session.logged) { %>
+    <form action="/logout" method="post">
+      <button type="submit" class="btn btn-danger float-end">logout</button>
+    </form>
+  <% } else {%>
+    <div class="container">
+      <a class="btn btn-primary float-end" href="<%= "/form/login" %>" role="button">Login</a>
+    </div>
+  <% } %>
+
   
   <form method="post" class="mb-5" action="/send-donation" id="form">
     <h1>Send Donation</h1>
