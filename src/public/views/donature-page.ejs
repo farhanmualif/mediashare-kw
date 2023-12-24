@@ -110,17 +110,9 @@
       <div class="mb-3">
         <label for="nominal" class="form-label">Nominal</label>
         <input type="number" name="nominal" class="form-control" id="nominal"/>
+        <input type="text" name="recipientsName" value="<%= req.params.name %>" class="form-control" id="recipientsName" hidden/>
       </div>
 
-      <label for="paymentMethod" class="form-label">Payment Method</label>
-      <div class="input-group mb-3" >
-        <select class="form-select" name="paymentMethod" id="paymentMethod">
-          <option selected>Choose...</option>
-          <option value="bca">BCA</option>
-          <option value="dana">DANA</option>
-          <option value="bri">BRI</option>
-        </select>
-      </div>
     </div>
     <button type="submit" class="btn btn-primary" id="pay-button">Submit</button>
   </form>

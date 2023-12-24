@@ -6,6 +6,7 @@ export const mediaRepository = {
     const mediaCreated = prisma.media.create({
       data,
     });
+
     return mediaCreated;
   },
 

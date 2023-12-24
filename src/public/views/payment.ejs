@@ -8,12 +8,52 @@
   </head>
   <body>
     <input type="text" id="token" value="<%= token %>" hidden />
+    <input
+      type="text"
+      id="request"
+      value="<%= JSON.stringify(request) %>"
+      hidden />
     <script src="/socket.io/socket.io.js" async></script>
     <script type="text/javascript">
       const token = document.getElementById("token").value;
-      setTimeout(() => {
-        window.snap.pay(token);
-      }, 1000);
+      let getRequestBody = document.getElementById("request").value;
+      const pasrsing = JSON.parse(getRequestBody);
+      console.log("name: ", pasrsing.recipientsName);
+
+      window.snap.pay(token, {
+        onSuccess: async function (result) {
+          /* set payment method and groos amount */
+          let requestBody = JSON.parse(getRequestBody);
+          requestBody.grossAmount = result.gross_amount;
+          requestBody.uuid = result.transaction_id;
+          requestBody.method = result.payment_type;
+          console.log(requestBody);
+
+         /* if success payment insert into database */
+          const post = await fetch("/pay-now", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(requestBody),
+          });
+          console.log("success");
+          console.log(result);
+        },
+        onPending: function (result) {
+          console.log("pending");
+          console.log(result);
+        },
+        onError: function (result) {
+          console.log("error");
+          console.log(result);
+        },
+        onClose: function () {
+          console.log(
+            "customer closed the popup without finishing the payment"
+          );
+        },
+      }); 
     </script>
   </body>
 </html>

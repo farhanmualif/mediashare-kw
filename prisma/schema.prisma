@@ -25,21 +25,20 @@ model User {
 }
 
 model Media {
-  id             Int      @id @default(autoincrement())
-  uuid           String   @unique @default(uuid())
+  id             Int       @id @default(autoincrement())
+  uuid           String    @unique @default(uuid())
   name           String
-  nominal        Int
-  played         Boolean  @default(false)
+  played         Boolean   @default(false)
   message        String
   linkMedia      String
   typeMedia      String
-  startAtSecond  String   @default("5")
-  duration       String   @default("5000")
-  paymentMethod  String
-  createdAt      DateTime @default(now())
-  updatedAt      DateTime @default(now())
+  startAtSecond  String    @default("5")
+  duration       String    @default("5000")
+  createdAt      DateTime  @default(now())
+  updatedAt      DateTime  @default(now())
   recipientsName String
-  User           User     @relation(fields: [recipientsName], references: [name])
+  User           User      @relation(fields: [recipientsName], references: [name])
+  Payment        Payment[]
 }
 
 model Token {
@@ -47,4 +46,13 @@ model Token {
   User     User   @relation(fields: [userUUID], references: [uuid])
   userUUID String @unique
   token    String @db.Text
+}
+
+model Payment {
+  id          Int    @id @default(autoincrement())
+  uuid        String @unique @default(uuid())
+  mediaId     Int
+  Media       Media  @relation(fields: [mediaId], references: [id])
+  method      String
+  grossAmount Int
 }

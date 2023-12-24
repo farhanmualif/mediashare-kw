@@ -39,18 +39,19 @@ const mediaShareController = {
 
   payment: async (req, res, next) => {
     try {
-      // const media = await mediServices.insertMedia(req.body);
-      /* Midtrans Implementation */
+      console.log("req body", req.body);
+      /* Midtrans Parameter */
       let parameter = {
         transaction_details: {
           order_id: uuidv4(),
           gross_amount: req.body.nominal,
         },
       };
-      /* respons token from midtrans */
+
+      /* Midtrans Token */
       const token = await snap.createTransactionToken(parameter);
       const clientKey = process.env.MIDTRANS_CLIENT_KEY;
-      res.render("payment", { token, clientKey });
+      res.render("payment", { token, clientKey, request: req.body });
     } catch (e) {
       next(e);
     }
@@ -58,6 +59,12 @@ const mediaShareController = {
 
   payNow: async (req, res, next) => {
     try {
+      console.log("request body", req.body);
+      const respons = await mediServices.insertMedia(req.body);
+      res.json({
+        data: respons,
+      });
+
       // showNewDataTriggerIntoRecipent(media.recipientsName);
       req.flash("success", "send donation successfully");
     } catch (error) {

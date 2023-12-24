@@ -14,6 +14,7 @@ web.post("/login", userController.login);
 web.post("/send-donation", mediaShareController.payment);
 web.get("/display/:uuid", userController.display);
 web.get("/donate/:name", mediaShareController.sendDonationForm);
+web.post("/pay-now", mediaShareController.payNow);
 
 web.use(authentication);
 web.get("/index", userController.index);
