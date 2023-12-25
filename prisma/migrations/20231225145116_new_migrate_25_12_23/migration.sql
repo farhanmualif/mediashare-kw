@@ -21,14 +21,12 @@ CREATE TABLE `Media` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `uuid` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
-    `nominal` INTEGER NOT NULL,
     `played` BOOLEAN NOT NULL DEFAULT false,
     `message` VARCHAR(191) NOT NULL,
     `linkMedia` VARCHAR(191) NOT NULL,
     `typeMedia` VARCHAR(191) NOT NULL,
     `startAtSecond` VARCHAR(191) NOT NULL DEFAULT '5',
     `duration` VARCHAR(191) NOT NULL DEFAULT '5000',
-    `paymentMethod` VARCHAR(191) NOT NULL,
     `createdAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `updatedAt` DATETIME(3) NOT NULL DEFAULT CURRENT_TIMESTAMP(3),
     `recipientsName` VARCHAR(191) NOT NULL,
@@ -47,8 +45,24 @@ CREATE TABLE `Token` (
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+-- CreateTable
+CREATE TABLE `Payment` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `uuid` VARCHAR(191) NOT NULL,
+    `mediaId` INTEGER NOT NULL,
+    `method` VARCHAR(191) NOT NULL,
+    `status` ENUM('PENDING', 'PAID', 'FALED') NOT NULL DEFAULT 'PENDING',
+    `grossAmount` INTEGER NOT NULL,
+
+    UNIQUE INDEX `Payment_uuid_key`(`uuid`),
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 -- AddForeignKey
 ALTER TABLE `Media` ADD CONSTRAINT `Media_recipientsName_fkey` FOREIGN KEY (`recipientsName`) REFERENCES `User`(`name`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE `Token` ADD CONSTRAINT `Token_userUUID_fkey` FOREIGN KEY (`userUUID`) REFERENCES `User`(`uuid`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Payment` ADD CONSTRAINT `Payment_mediaId_fkey` FOREIGN KEY (`mediaId`) REFERENCES `Media`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
