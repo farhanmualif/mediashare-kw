@@ -11,6 +11,7 @@ const sendMediaValidation = Joi.object({
   startAtSecond: Joi.string().required(),
   typeMedia: Joi.string().required(),
   method: Joi.string().required(),
+  status: Joi.string().required(),
 });
 
 export default { sendMediaValidation };

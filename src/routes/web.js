@@ -3,6 +3,7 @@ import { userController } from "../controllers/userController.js";
 import mediaShareController from "../controllers/mediaShareController.js";
 import { authentication } from "../middleware/authenthication.js";
 import uploadFile from "../middleware/multer.js";
+import { paymentSuccess } from "../middleware/paymentSuccess.js";
 const web = express.Router();
 const upload = uploadFile();
 
@@ -15,6 +16,10 @@ web.post("/send-donation", mediaShareController.payment);
 web.get("/display/:uuid", userController.display);
 web.get("/donate/:name", mediaShareController.sendDonationForm);
 web.post("/pay-now", mediaShareController.payNow);
+
+web.get("/payment-success", mediaShareController.paymentSuccessPage);
+web.get("/payment-pending", mediaShareController.paymentPendingPage);
+web.get("/payment-failed", mediaShareController.paymentFailedPage);
 
 web.use(authentication);
 web.get("/index", userController.index);

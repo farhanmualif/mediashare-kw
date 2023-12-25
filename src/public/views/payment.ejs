@@ -14,6 +14,7 @@
       value="<%= JSON.stringify(request) %>"
       hidden />
     <script src="/socket.io/socket.io.js" async></script>
+
     <script type="text/javascript">
       const token = document.getElementById("token").value;
       let getRequestBody = document.getElementById("request").value;
@@ -27,9 +28,10 @@
           requestBody.grossAmount = result.gross_amount;
           requestBody.uuid = result.transaction_id;
           requestBody.method = result.payment_type;
-          console.log(requestBody);
+          requestBody.status = "PAID";
+          requestBody.paymentSuccess = true;
 
-         /* if success payment insert into database */
+          /* if success payment insert into database */
           const post = await fetch("/pay-now", {
             method: "POST",
             headers: {
@@ -39,12 +41,43 @@
           });
           console.log("success");
           console.log(result);
+          let host =
+            window.location.protocol +
+            "//" +
+            window.location.host +
+            "/payment-success";
+          console.log(host);
+          window.location.replace(host);
         },
-        onPending: function (result) {
+        onPending: async function (result) {
+          /* set payment method and groos amount */
+          let requestBody = JSON.parse(getRequestBody);
+          requestBody.grossAmount = result.gross_amount;
+          requestBody.uuid = result.transaction_id;
+          requestBody.method = result.payment_type;
+          requestBody.status = "PENDING";
+          requestBody.paymentSuccess = false;
+
+          /* if success payment insert into database */
+          const post = await fetch("/pay-now", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(requestBody),
+          });
           console.log("pending");
-          console.log(result);
+          let host =
+            window.location.protocol +
+            "//" +
+            window.location.host +
+            "/payment-pending";
+          console.log(host);
+          window.location.replace(host);
         },
         onError: function (result) {
+          const host = window.location.origin;
+          window.replace.location(`${host}/payment-failed`);
           console.log("error");
           console.log(result);
         },
@@ -53,7 +86,7 @@
             "customer closed the popup without finishing the payment"
           );
         },
-      }); 
+      });
     </script>
   </body>
 </html>

@@ -3,7 +3,6 @@ import { mediServices } from "../services/mediaServices.js";
 import { showNewDataTriggerIntoRecipent } from "../../helper/triggerHandler.js";
 import midtransClient from "midtrans-client";
 import { v4 as uuidv4 } from "uuid";
-import { io } from "../../app.js";
 
 /* Configure midtrans */
 let snap = new midtransClient.Snap({
@@ -15,6 +14,7 @@ let snap = new midtransClient.Snap({
 const mediaShareController = {
   sendDonationForm: async (req, res, next) => {
     try {
+      req.session.paymentSuccess ? delete req.session.paymentSuccess : "";
       if (req.params && req.params.name) {
         const user = await userServices.getUser(
           {
@@ -39,12 +39,14 @@ const mediaShareController = {
 
   payment: async (req, res, next) => {
     try {
-      console.log("req body", req.body);
       /* Midtrans Parameter */
       let parameter = {
         transaction_details: {
-          order_id: uuidv4(),
+          order_id: uuidv4(), 
           gross_amount: req.body.nominal,
+        },
+        callbacks: {
+          finish: "https://649a-125-163-253-130.ngrok-free.app/payment-success",
         },
       };
 
@@ -57,16 +59,24 @@ const mediaShareController = {
     }
   },
 
+  paymentSuccessPage: (req, res) => {
+    res.render("payment-status/success");
+  },
+
+  paymentFailedPage: (req, res) => {
+    res.render("payment-status/failed");
+  },
+  paymentPendingPage: (req, res) => {
+    console.log("masuk");
+    res.render("payment-status/pending");
+  },
+
   payNow: async (req, res, next) => {
     try {
-      console.log("request body", req.body);
+      req.session.paymentSuccess = true;
       const respons = await mediServices.insertMedia(req.body);
-      res.json({
-        data: respons,
-      });
-
-      // showNewDataTriggerIntoRecipent(media.recipientsName);
-      req.flash("success", "send donation successfully");
+      showNewDataTriggerIntoRecipent(respons.recipientsName);
+      res.render("payment-status/success");
     } catch (error) {
       next(error);
     }

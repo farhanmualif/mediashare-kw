@@ -48,11 +48,18 @@ model Token {
   token    String @db.Text
 }
 
+enum Status {
+  PENDING
+  PAID
+  FALED
+}
+
 model Payment {
   id          Int    @id @default(autoincrement())
   uuid        String @unique @default(uuid())
   mediaId     Int
   Media       Media  @relation(fields: [mediaId], references: [id])
   method      String
+  status      Status @default(PENDING)
   grossAmount Int
 }
