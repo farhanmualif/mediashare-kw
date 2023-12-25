@@ -6,7 +6,7 @@ import { v4 as uuidv4 } from "uuid";
 
 /* Configure midtrans */
 let snap = new midtransClient.Snap({
-  isProduction: false,
+  isProduction: !Boolean(process.env.IS_PRODUCTION),
   serverKey: process.env.MIDTRANS_SERVER_KEY,
   clientKey: process.env.MIDTRANS_CLIENT_KEY,
 });
@@ -14,6 +14,7 @@ let snap = new midtransClient.Snap({
 const mediaShareController = {
   sendDonationForm: async (req, res, next) => {
     try {
+      // http://localhost:3000/donate/testing
       req.session.paymentSuccess ? delete req.session.paymentSuccess : "";
       if (req.params && req.params.name) {
         const user = await userServices.getUser(
@@ -38,15 +39,24 @@ const mediaShareController = {
   },
 
   payment: async (req, res, next) => {
+    const localhost =
+      req.protocol +
+      "://" +
+      req.hostname +
+      ":" +
+      process.env.PORT +
+      req.originalUrl;
+    const production = req.protocol + "://" + req.hostname + req.originalUrl;
+    let finish = process.env.NODE_ENV == "development" ? localhost : production;
     try {
       /* Midtrans Parameter */
       let parameter = {
         transaction_details: {
-          order_id: uuidv4(), 
+          order_id: uuidv4(),
           gross_amount: req.body.nominal,
         },
         callbacks: {
-          finish: "https://649a-125-163-253-130.ngrok-free.app/payment-success",
+          finish,
         },
       };
 
@@ -67,7 +77,6 @@ const mediaShareController = {
     res.render("payment-status/failed");
   },
   paymentPendingPage: (req, res) => {
-    console.log("masuk");
     res.render("payment-status/pending");
   },
 
