@@ -5,7 +5,7 @@
   "main": "app.js",
   "type": "module",
   "scripts": {
-    "build": "npx prisma generate && npx prisma migrate deploy --preview-feature",
+    "build": "npx prisma generate && npx prisma migrate resolve --applied 20231225145526_new_migrate_21_54_25_12",
     "test": "jest",
     "dev": "nodemon app.js",
     "start": "npm run build && node app.js",
